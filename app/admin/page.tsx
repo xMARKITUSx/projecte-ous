@@ -3,12 +3,15 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { db } from '@/firebase';
+import { db, app } from '@/firebase';
+// LÍNEAS CORREGIDAS:
 import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc, writeBatch, Timestamp } from 'firebase/firestore';
+import { getAuth, signOut } from "firebase/auth";
 import Link from 'next/link';
 import Modal from '@/components/Modal';
 import { useTranslation } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 export type Pedido = {
   id: string;
@@ -24,7 +27,7 @@ export type Pedido = {
   };
 };
 
-export default function AdminPage() {
+function AdminPageContent() {
   const { t } = useTranslation();
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,10 +53,7 @@ export default function AdminPage() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchPedidos();
-  }, []);
+  useEffect(() => { fetchPedidos(); }, []);
 
   const estadisticas = useMemo(() => {
     const pedidosPendientes = pedidos.filter(p => p.estado === 'pendiente');
@@ -100,11 +100,19 @@ export default function AdminPage() {
     setShowDeleteAllModal(false);
   };
 
+  const handleLogout = async () => {
+    const auth = getAuth(app);
+    await signOut(auth);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-gray-800">📦 {t('orderManagement')}</h1>
         <div className="flex items-center space-x-4">
+          <button onClick={handleLogout} className="bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600">
+            Cerrar Sesión
+          </button>
           <LanguageSwitcher />
           <Link href="/monitor" className="bg-purple-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-600 flex items-center gap-2">
             📊 {t('realtimeMonitor')}
@@ -114,12 +122,11 @@ export default function AdminPage() {
               {t('deleteAll')}
             </button>
           )}
-          <Link href="/" className="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">
+          <Link href="/" className="bg-gray-200 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">
             {t('backToForm')}
           </Link>
         </div>
       </header>
-
       <main className="p-4 md:p-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-6 rounded-xl shadow-lg">
@@ -135,7 +142,6 @@ export default function AdminPage() {
             <p className="text-5xl font-extrabold mt-2">{estadisticas.garrafasAceite}</p>
           </div>
         </div>
-
         <div className="mt-8">
           {loading && <p className="text-center text-gray-500">{t('loadingOrders')}</p>}
           {error && <p className="text-center text-red-500 font-semibold">{error}</p>}
@@ -178,7 +184,6 @@ export default function AdminPage() {
           )}
         </div>
       </main>
-
       <Modal isOpen={showDeleteAllModal} onClose={() => setShowDeleteAllModal(false)}>
         <div className="space-y-4">
           <span className="text-5xl">⚠️</span>
@@ -190,12 +195,11 @@ export default function AdminPage() {
           </div>
         </div>
       </Modal>
-      
       <Modal isOpen={!!pedidoParaEliminar} onClose={() => setPedidoParaEliminar(null)}>
         <div className="space-y-4">
           <span className="text-5xl">🗑️</span>
           <h2 className="text-2xl font-bold text-gray-900">Confirmar Eliminación</h2>
-          <p className="text-gray-600">¿Seguro que quieres eliminar el pedido de <strong>{pedidoParaEliminar?.cliente}</strong>?<br/>Esta acción no se puede deshacer.</p>
+          <p className="text-gray-600">¿Seguro que quieres eliminar el pedido de <strong>{pedidoParaEliminar?.cliente}</strong>?<br />Esta acción no se puede deshacer.</p>
           <div className="flex justify-center space-x-4 pt-4">
             <button onClick={handleConfirmDelete} className="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600">Sí, eliminar</button>
             <button onClick={() => setPedidoParaEliminar(null)} className="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
@@ -203,5 +207,13 @@ export default function AdminPage() {
         </div>
       </Modal>
     </div>
+  );
+}
+
+export default function AdminPage() {
+  return (
+    <ProtectedRoute>
+      <AdminPageContent />
+    </ProtectedRoute>
   );
 }

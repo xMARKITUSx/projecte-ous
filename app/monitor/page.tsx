@@ -6,11 +6,13 @@ import { useState, useEffect, useMemo } from 'react';
 import { db } from '@/firebase';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import Link from 'next/link';
-import { type Pedido } from '../admin/page'; // Reutilizamos el tipo Pedido que ya definimos
+import { type Pedido } from '../admin/page'; // Reutilizamos el tipo Pedido
 import { useTranslation } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ProtectedRoute from '@/components/ProtectedRoute'; // <-- LÍNEA CORREGIDA
 
-export default function MonitorPage() {
+// Movemos el contenido principal a un componente interno
+function MonitorPageContent() {
   const { t } = useTranslation();
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,6 @@ export default function MonitorPage() {
   useEffect(() => {
     const q = query(collection(db, "pedidos"), orderBy("fechaPedido", "desc"));
     
-    // onSnapshot establece la escucha en tiempo real
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const pedidosData = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -35,7 +36,6 @@ export default function MonitorPage() {
     return () => unsubscribe();
   }, []);
 
-  // El cálculo de estadísticas no cambia
   const estadisticas = useMemo(() => {
     const pedidosPendientes = pedidos.filter(p => p.estado === 'pendiente');
     const totalCajasHuevos = pedidosPendientes.reduce((sum, p) => sum + (p.productos.huevos?.cantidad || 0), 0);
@@ -65,8 +65,7 @@ export default function MonitorPage() {
         </div>
       </header>
 
-      <main className="p-4 md-p-8">
-        {/* Panel de Métricas (sin cambios) */}
+      <main className="p-4 md:p-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-6 rounded-xl shadow-lg"><h2 className="font-semibold">{t('totalOrders')}</h2><p className="text-5xl font-extrabold mt-2">{estadisticas.totalPedidos}</p></div>
           <div className="bg-gradient-to-br from-green-500 to-green-700 p-6 rounded-xl shadow-lg"><h2 className="font-semibold">{t('delivered')}</h2><p className="text-5xl font-extrabold mt-2">{estadisticas.entregados}</p></div>
@@ -74,15 +73,12 @@ export default function MonitorPage() {
           <div className="bg-gradient-to-br from-purple-500 to-pink-700 p-6 rounded-xl shadow-lg"><h2 className="font-semibold">{t('pendingOilCans')}</h2><p className="text-5xl font-extrabold mt-2">{estadisticas.garrafasAceitePendientes}</p></div>
         </div>
 
-        {/* Lista de Pedidos Recientes */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4">{t('recentOrders')}</h2>
           {loading ? <p className="text-center">{t('loadingOrders')}</p> : (
             <div className="space-y-4">
               {pedidos.map(pedido => (
-                // Tarjeta de Pedido Individual
                 <div key={pedido.id} className={`bg-white/10 backdrop-blur-md rounded-lg p-4 border transition-all duration-300 ${pedido.estado === 'entregado' ? 'border-green-500/50 opacity-60' : 'border-purple-500/50'}`}>
-                  {/* Cabecera de la tarjeta */}
                   <div className="flex justify-between items-center mb-3">
                     <div className="flex items-center space-x-4">
                       <span className="text-3xl">{pedido.estado === 'entregado' ? '✅' : '⏳'}</span>
@@ -96,7 +92,6 @@ export default function MonitorPage() {
                     </span>
                   </div>
 
-                  {/* --- NUEVO: DETALLES DE PRODUCTOS --- */}
                   <div className="space-y-2 border-t border-white/10 pt-3">
                     {pedido.productos.huevos && (
                       <div className="bg-black/20 p-2 rounded-md flex justify-between items-center text-sm">
@@ -112,11 +107,9 @@ export default function MonitorPage() {
                     )}
                   </div>
                   
-                  {/* --- NUEVO: TOTAL DEL PEDIDO --- */}
                   <div className="bg-white/20 text-white font-bold text-md p-2 mt-3 rounded-md text-right">
                     {t('total')}: {pedido.total}€
                   </div>
-
                 </div>
               ))}
             </div>
@@ -124,5 +117,14 @@ export default function MonitorPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+// El componente principal ahora solo aplica la protección
+export default function MonitorPage() {
+  return (
+    <ProtectedRoute>
+      <MonitorPageContent />
+    </ProtectedRoute>
   );
 }
