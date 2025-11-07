@@ -6,12 +6,11 @@ import { useState, useEffect, useMemo } from 'react';
 import { db } from '@/firebase';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import Link from 'next/link';
-import { type Pedido } from '../admin/page'; // Reutilizamos el tipo Pedido
+import { type Pedido } from '../admin/page';
 import { useTranslation } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-import ProtectedRoute from '@/components/ProtectedRoute'; // <-- LÍNEA CORREGIDA
+import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Movemos el contenido principal a un componente interno
 function MonitorPageContent() {
   const { t } = useTranslation();
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -19,13 +18,11 @@ function MonitorPageContent() {
 
   useEffect(() => {
     const q = query(collection(db, "pedidos"), orderBy("fechaPedido", "desc"));
-    
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const pedidosData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       })) as Pedido[];
-      
       setPedidos(pedidosData);
       setLoading(false);
     }, (error) => {
@@ -91,25 +88,11 @@ function MonitorPageContent() {
                       {pedido.pagado ? `💰 ${t('paid')}` : `⏰ ${t('pending')}`}
                     </span>
                   </div>
-
                   <div className="space-y-2 border-t border-white/10 pt-3">
-                    {pedido.productos.huevos && (
-                      <div className="bg-black/20 p-2 rounded-md flex justify-between items-center text-sm">
-                        <div><span className="mr-2">🥚</span><span>{pedido.productos.huevos.cantidad} {t('boxUnit', {count: pedido.productos.huevos.cantidad})}s</span></div>
-                        <span className="font-semibold">{pedido.productos.huevos.precioTotal}€</span>
-                      </div>
-                    )}
-                    {pedido.productos.aceite && (
-                      <div className="bg-black/20 p-2 rounded-md flex justify-between items-center text-sm">
-                        <div><span className="mr-2">🍾</span><span>{pedido.productos.aceite.cantidad} {t('canUnit', {count: pedido.productos.aceite.cantidad})}s</span></div>
-                        <span className="font-semibold">{pedido.productos.aceite.precioTotal}€</span>
-                      </div>
-                    )}
+                    {pedido.productos.huevos && <div className="bg-black/20 p-2 rounded-md flex justify-between items-center text-sm"><div><span className="mr-2">🥚</span><span>{pedido.productos.huevos.cantidad} {t('boxUnit')}s</span></div><span className="font-semibold">{pedido.productos.huevos.precioTotal}€</span></div>}
+                    {pedido.productos.aceite && <div className="bg-black/20 p-2 rounded-md flex justify-between items-center text-sm"><div><span className="mr-2">🍾</span><span>{pedido.productos.aceite.cantidad} {t('canUnit')}s</span></div><span className="font-semibold">{pedido.productos.aceite.precioTotal}€</span></div>}
                   </div>
-                  
-                  <div className="bg-white/20 text-white font-bold text-md p-2 mt-3 rounded-md text-right">
-                    {t('total')}: {pedido.total}€
-                  </div>
+                  <div className="bg-white/20 text-white font-bold text-md p-2 mt-3 rounded-md text-right">{t('total')}: {pedido.total}€</div>
                 </div>
               ))}
             </div>
@@ -120,7 +103,6 @@ function MonitorPageContent() {
   );
 }
 
-// El componente principal ahora solo aplica la protección
 export default function MonitorPage() {
   return (
     <ProtectedRoute>
