@@ -133,18 +133,27 @@ function AdminPageContent() {
         </div>
       </header>
       <main className="p-4 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-6 rounded-xl shadow-lg">
-            <h2 className="font-semibold text-lg">{t('pendingOrders')}</h2>
-            <p className="text-5xl font-extrabold mt-2">{estadisticas.pedidosPendientes}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold text-base">{t('pendingOrders')}</h2>
+              <span className="text-2xl">📋</span>
+            </div>
+            <p className="text-4xl font-extrabold mt-1">{estadisticas.pedidosPendientes}</p>
           </div>
-          <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white p-6 rounded-xl shadow-lg">
-            <h2 className="font-semibold text-lg">{t('pendingEggBoxes')}</h2>
-            <p className="text-5xl font-extrabold mt-2">{estadisticas.cajasHuevos}</p>
+          <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white p-4 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold text-base">{t('pendingEggBoxes')}</h2>
+              <span className="text-2xl">🥚</span>
+            </div>
+            <p className="text-4xl font-extrabold mt-1">{estadisticas.cajasHuevos}</p>
           </div>
-          <div className="bg-gradient-to-br from-green-400 to-green-600 text-white p-6 rounded-xl shadow-lg">
-            <h2 className="font-semibold text-lg">{t('pendingOilCans')}</h2>
-            <p className="text-5xl font-extrabold mt-2">{estadisticas.garrafasAceite}</p>
+          <div className="bg-gradient-to-br from-green-400 to-green-600 text-white p-4 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold text-base">{t('pendingOilCans')}</h2>
+              <span className="text-2xl">🍾</span>
+            </div>
+            <p className="text-4xl font-extrabold mt-1">{estadisticas.garrafasAceite}</p>
           </div>
         </div>
         <div className="mt-8">
