@@ -39,5 +39,7 @@
   "delivered": "Lliurades",
   "pendingEggBoxes": "Caixes Ous Pend.",
   "pendingOilCans": "Garrafes Oli Pend.",
-  "recentOrders": "Comandes Recents"
+  "recentOrders": "Comandes Recents",
+  "formError": "Si us plau, omple el teu nom i selecciona almenys un producte.",
+  "submitError": "Hi ha hagut un error en enviar la teva comanda. Si us plau, torna-ho a provar."
 }

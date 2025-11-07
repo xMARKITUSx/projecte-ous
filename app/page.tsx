@@ -53,7 +53,7 @@ export default function HomePage() {
     setIsSubmitting(true);
 
     if (nombre.trim() === '' || (!pedido.huevos.seleccionado && !pedido.aceite.seleccionado)) {
-      alert(t('formError', { defaultValue: 'Por favor, completa tu nombre y selecciona al menos un producto.' }));
+      alert(t('formError')); // CORREGIDO
       setIsSubmitting(false);
       return;
     }
@@ -83,7 +83,7 @@ export default function HomePage() {
 
     } catch (error) {
       console.error("Error al añadir el pedido: ", error);
-      alert(t('submitError', { defaultValue: 'Hubo un error al enviar tu pedido. Por favor, inténtalo de nuevo.' }));
+      alert(t('submitError')); // CORREGIDO
     } finally {
       setIsSubmitting(false);
     }
@@ -103,7 +103,6 @@ export default function HomePage() {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-orange-600">🥚 {t('makeOrder')} 🫒</h1>
           <p className="text-gray-500">{t('eggsAndOil')}</p>
-          {/* AQUÍ ESTÁ EL BOTÓN AÑADIDO DE NUEVO */}
           <LanguageSwitcher />
         </div>
 
@@ -143,7 +142,7 @@ export default function HomePage() {
               <div className="bg-orange-50 p-3 rounded-md">
                 <label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label>
                 <input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" />
-                <p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit', {count: pedido.huevos.cantidad})}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p>
+                <p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p>
               </div>
             )}
             
@@ -151,7 +150,7 @@ export default function HomePage() {
               <div className="bg-orange-50 p-3 rounded-md">
                 <label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label>
                 <input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" />
-                <p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit', {count: pedido.aceite.cantidad})}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p>
+                <p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit')}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p>
               </div>
             )}
           </div>
