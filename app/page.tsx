@@ -28,7 +28,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (submissionSuccess) {
-      const timer = setTimeout(() => setSubmissionSuccess(false), 4000); // Acortamos a 4 segundos
+      const timer = setTimeout(() => setSubmissionSuccess(false), 4000);
       return () => clearTimeout(timer);
     }
   }, [submissionSuccess]);
@@ -92,7 +92,6 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4">
       
-      {/* CORRECCIÓN 3: Mensaje de confirmación mejorado para móviles */}
       {submissionSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
           <div className="bg-green-500 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center gap-4 text-center animate-fade-in-down w-full max-w-xs">
@@ -105,22 +104,23 @@ export default function HomePage() {
 
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6">
         <div className="text-center">
-          {/* CORRECCIÓN 1: Título ajustado para móviles */}
-          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 flex items-center justify-center gap-2">
+          {/* CORRECCIÓN 1: Título en mayúsculas */}
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 flex items-center justify-center gap-2 uppercase">
             <span>🥚</span>
             <span>{t('makeOrder')}</span>
             <span>🫒</span>
           </h1>
-          <p className="text-gray-500">{t('eggsAndOil')}</p>
+          {/* CORRECCIÓN 2: Subtítulo más visible */}
+          <p className="text-gray-600 font-semibold">{t('eggsAndOil')}</p>
           <LanguageSwitcher />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* ... (resto del formulario sin cambios) ... */}
           <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">{t('yourNameLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📦</span>
-              {/* CORRECCIÓN 2: Texto del input más oscuro */}
               <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('yourNamePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors text-gray-800" required />
             </div>
           </div>
@@ -128,11 +128,9 @@ export default function HomePage() {
             <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">{t('yourPhoneLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📞</span>
-              {/* CORRECCIÓN 2: Texto del input más oscuro */}
               <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors text-gray-800" />
             </div>
           </div>
-          
           <div className="grid grid-cols-2 gap-4">
             <div onClick={() => handleSelectProducto('huevos')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.huevos.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
               <span className="text-4xl md:text-5xl">🥚</span>
@@ -147,35 +145,11 @@ export default function HomePage() {
               {pedido.aceite.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
           </div>
-
           <div className="space-y-4 transition-opacity duration-500">
-            {pedido.huevos.seleccionado && (
-              <div className="bg-orange-50 p-3 rounded-md">
-                <label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label>
-                <input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" />
-                <p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p>
-              </div>
-            )}
-            
-            {pedido.aceite.seleccionado && (
-              <div className="bg-orange-50 p-3 rounded-md">
-                <label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label>
-                <input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" />
-                <p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit')}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p>
-              </div>
-            )}
+            {pedido.huevos.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label><input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p></div>)}
+            {pedido.aceite.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label><input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit')}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p></div>)}
           </div>
-          
-          {totalPedido > 0 && (
-            <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500">
-              <h3 className="font-bold text-lg">{t('orderSummary')}</h3>
-              {pedido.huevos.seleccionado && <div className="flex justify-between"><span>{t('eggs')} ({pedido.huevos.cantidad} x {PRECIOS.huevos}€)</span><span>{pedido.huevos.cantidad * PRECIOS.huevos}€</span></div>}
-              {pedido.aceite.seleccionado && <div className="flex justify-between"><span>{t('oil')} ({pedido.aceite.cantidad} x {PRECIOS.aceite}€)</span><span>{pedido.aceite.cantidad * PRECIOS.aceite}€</span></div>}
-              <hr className="border-green-300" />
-              <div className="flex justify-between font-extrabold text-xl"><span>{t('total')}</span><span>{totalPedido}€</span></div>
-            </div>
-          )}
-
+          {totalPedido > 0 && (<div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500"><h3 className="font-bold text-lg">{t('orderSummary')}</h3>{pedido.huevos.seleccionado && <div className="flex justify-between"><span>{t('eggs')} ({pedido.huevos.cantidad} x {PRECIOS.huevos}€)</span><span>{pedido.huevos.cantidad * PRECIOS.huevos}€</span></div>}{pedido.aceite.seleccionado && <div className="flex justify-between"><span>{t('oil')} ({pedido.aceite.cantidad} x {PRECIOS.aceite}€)</span><span>{pedido.aceite.cantidad * PRECIOS.aceite}€</span></div>}<hr className="border-green-300" /><div className="flex justify-between font-extrabold text-xl"><span>{t('total')}</span><span>{totalPedido}€</span></div></div>)}
           <div>
             <button type="submit" disabled={isSubmitting} className={`w-full text-white font-bold text-lg py-3 px-6 rounded-lg shadow-md transition-transform ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 active:scale-95'}`}>
               {isSubmitting ? t('sending') : t('sendOrder')}
@@ -183,9 +157,14 @@ export default function HomePage() {
           </div>
         </form>
 
-        <div className="text-center text-sm text-gray-400 space-x-4">
-          <Link href="/admin" className="hover:underline">{t('adminPanel')}</Link>
-          <Link href="/monitor" className="hover:underline">{t('realtimeMonitor')}</Link>
+        {/* CORRECCIÓN 3: Enlaces estructurados y centrados */}
+        <div className="text-center text-sm text-gray-500 flex flex-col items-center gap-2 pt-4">
+          <Link href="/login" className="hover:underline">
+            {t('adminPanel')}
+          </Link>
+          <Link href="/monitor" className="hover:underline">
+            {t('realtimeMonitor')}
+          </Link>
         </div>
       </div>
     </main>
