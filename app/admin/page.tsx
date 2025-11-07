@@ -176,7 +176,7 @@ function AdminPageContent() {
                   </div>
                   <div className="space-y-2 text-gray-800">
                     {pedido.productos.huevos && 
-                      <div className="bg-orange-50/70 p-2 rounded-md flex justify-between items-center text-base">
+                      <div className="bg-orange-100 p-2 rounded-md flex justify-between items-center text-base">
                         <div className="flex items-center">
                           <span className="text-2xl mr-2">🥚</span>
                           <span className="font-semibold">{pedido.productos.huevos.cantidad} {t('boxUnit')}s ({pedido.productos.huevos.unidades} uds)</span>
@@ -185,7 +185,7 @@ function AdminPageContent() {
                       </div>
                     }
                     {pedido.productos.aceite && 
-                      <div className="bg-green-50/70 p-2 rounded-md flex justify-between items-center text-base">
+                      <div className="bg-green-100 p-2 rounded-md flex justify-between items-center text-base">
                         <div className="flex items-center">
                           <span className="text-2xl mr-2">🫒</span>
                           <span className="font-semibold">{pedido.productos.aceite.cantidad} {t('canUnit')}s ({pedido.productos.aceite.litros} L)</span>
