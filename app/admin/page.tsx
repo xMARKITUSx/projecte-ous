@@ -4,7 +4,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { db, app } from '@/firebase';
-// CORRECCIÓN 1: Se separan las importaciones
 import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc, writeBatch, Timestamp } from 'firebase/firestore';
 import { getAuth, signOut } from "firebase/auth";
 import Link from 'next/link';
@@ -128,8 +127,8 @@ function AdminPageContent() {
       <main className="p-4 md:p-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-6 rounded-xl shadow-lg">
-             {/* CORRECCIÓN 2: Se simplifica la llamada a t() */}
-            <h2 className="font-semibold text-lg">{t('pendingOrders')}</h2>
+            {/* CORRECCIÓN: Se usa la clave correcta del JSON */}
+            <h2 className="font-semibold text-lg">{t('totalOrders')}</h2>
             <p className="text-5xl font-extrabold mt-2">{estadisticas.pedidosPendientes}</p>
           </div>
           <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white p-6 rounded-xl shadow-lg">
