@@ -104,19 +104,16 @@ export default function HomePage() {
 
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6">
         <div className="text-center">
-          {/* CORRECCIÓN 1: Título en mayúsculas */}
           <h1 className="text-3xl md:text-4xl font-bold text-orange-600 flex items-center justify-center gap-2 uppercase">
             <span>🥚</span>
             <span>{t('makeOrder')}</span>
             <span>🫒</span>
           </h1>
-          {/* CORRECCIÓN 2: Subtítulo más visible */}
           <p className="text-gray-600 font-semibold">{t('eggsAndOil')}</p>
           <LanguageSwitcher />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* ... (resto del formulario sin cambios) ... */}
           <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">{t('yourNameLabel')}</label>
             <div className="relative">
@@ -131,25 +128,31 @@ export default function HomePage() {
               <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors text-gray-800" />
             </div>
           </div>
+          
           <div className="grid grid-cols-2 gap-4">
             <div onClick={() => handleSelectProducto('huevos')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.huevos.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
               <span className="text-4xl md:text-5xl">🥚</span>
-              <p className="font-semibold">{t('eggs')}</p>
+              {/* CORRECCIÓN: Texto más oscuro y grueso */}
+              <p className="font-bold text-gray-800">{t('eggs')}</p>
               <p className="text-sm text-gray-600">{t('boxPrice')}</p>
               {pedido.huevos.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
             <div onClick={() => handleSelectProducto('aceite')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.aceite.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
               <span className="text-4xl md:text-5xl">🫒</span>
-              <p className="font-semibold">{t('oil')}</p>
+              {/* CORRECCIÓN: Texto más oscuro y grueso */}
+              <p className="font-bold text-gray-800">{t('oil')}</p>
               <p className="text-sm text-gray-600">{t('canPrice')}</p>
               {pedido.aceite.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
           </div>
+
           <div className="space-y-4 transition-opacity duration-500">
             {pedido.huevos.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label><input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p></div>)}
             {pedido.aceite.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label><input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit')}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p></div>)}
           </div>
+          
           {totalPedido > 0 && (<div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500"><h3 className="font-bold text-lg">{t('orderSummary')}</h3>{pedido.huevos.seleccionado && <div className="flex justify-between"><span>{t('eggs')} ({pedido.huevos.cantidad} x {PRECIOS.huevos}€)</span><span>{pedido.huevos.cantidad * PRECIOS.huevos}€</span></div>}{pedido.aceite.seleccionado && <div className="flex justify-between"><span>{t('oil')} ({pedido.aceite.cantidad} x {PRECIOS.aceite}€)</span><span>{pedido.aceite.cantidad * PRECIOS.aceite}€</span></div>}<hr className="border-green-300" /><div className="flex justify-between font-extrabold text-xl"><span>{t('total')}</span><span>{totalPedido}€</span></div></div>)}
+          
           <div>
             <button type="submit" disabled={isSubmitting} className={`w-full text-white font-bold text-lg py-3 px-6 rounded-lg shadow-md transition-transform ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 active:scale-95'}`}>
               {isSubmitting ? t('sending') : t('sendOrder')}
@@ -157,7 +160,6 @@ export default function HomePage() {
           </div>
         </form>
 
-        {/* CORRECCIÓN 3: Enlaces estructurados y centrados */}
         <div className="text-center text-sm text-gray-500 flex flex-col items-center gap-2 pt-4">
           <Link href="/login" className="hover:underline">
             {t('adminPanel')}
