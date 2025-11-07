@@ -28,7 +28,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (submissionSuccess) {
-      const timer = setTimeout(() => setSubmissionSuccess(false), 5000);
+      const timer = setTimeout(() => setSubmissionSuccess(false), 4000); // Acortamos a 4 segundos
       return () => clearTimeout(timer);
     }
   }, [submissionSuccess]);
@@ -92,16 +92,25 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4">
       
+      {/* CORRECCIÓN 3: Mensaje de confirmación mejorado para móviles */}
       {submissionSuccess && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-md p-4 bg-green-500 text-white text-center font-bold text-lg flex items-center justify-center space-x-2 rounded-lg shadow-lg z-50 animate-fade-in-down">
-          <span>{t('orderSentSuccess')}</span>
-          <span>✓</span>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="bg-green-500 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center gap-4 text-center animate-fade-in-down w-full max-w-xs">
+            <span className="text-5xl">✓</span>
+            <h2 className="text-2xl font-bold">{t('orderSentSuccess')}</h2>
+            <p className="text-sm">Te contactaremos pronto.</p>
+          </div>
         </div>
       )}
 
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 space-y-6">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-orange-600">🥚 {t('makeOrder')} 🫒</h1>
+          {/* CORRECCIÓN 1: Título ajustado para móviles */}
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 flex items-center justify-center gap-2">
+            <span>🥚</span>
+            <span>{t('makeOrder')}</span>
+            <span>🫒</span>
+          </h1>
           <p className="text-gray-500">{t('eggsAndOil')}</p>
           <LanguageSwitcher />
         </div>
@@ -111,35 +120,34 @@ export default function HomePage() {
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">{t('yourNameLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📦</span>
-              {/* AÑADIMOS TRANSICIÓN AL CAMPO DE TEXTO */}
-              <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('yourNamePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors" required />
+              {/* CORRECCIÓN 2: Texto del input más oscuro */}
+              <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('yourNamePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors text-gray-800" required />
             </div>
           </div>
           <div>
             <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">{t('yourPhoneLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📞</span>
-              {/* AÑADIMOS TRANSICIÓN AL CAMPO DE TEXTO */}
-              <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+              {/* CORRECCIÓN 2: Texto del input más oscuro */}
+              <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors text-gray-800" />
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div onClick={() => handleSelectProducto('huevos')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.huevos.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
-              <span className="text-5xl">🥚</span>
+              <span className="text-4xl md:text-5xl">🥚</span>
               <p className="font-semibold">{t('eggs')}</p>
               <p className="text-sm text-gray-600">{t('boxPrice')}</p>
               {pedido.huevos.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
             <div onClick={() => handleSelectProducto('aceite')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.aceite.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
-              <span className="text-5xl">🫒</span>
+              <span className="text-4xl md:text-5xl">🫒</span>
               <p className="font-semibold">{t('oil')}</p>
               <p className="text-sm text-gray-600">{t('canPrice')}</p>
               {pedido.aceite.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
           </div>
 
-          {/* AÑADIMOS CLASES DE TRANSICIÓN PARA EL FADE-IN */}
           <div className="space-y-4 transition-opacity duration-500">
             {pedido.huevos.seleccionado && (
               <div className="bg-orange-50 p-3 rounded-md">
@@ -158,7 +166,6 @@ export default function HomePage() {
             )}
           </div>
           
-          {/* AÑADIMOS CLASES DE TRANSICIÓN PARA EL FADE-IN */}
           {totalPedido > 0 && (
             <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500">
               <h3 className="font-bold text-lg">{t('orderSummary')}</h3>
