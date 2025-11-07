@@ -53,7 +53,7 @@ export default function HomePage() {
     setIsSubmitting(true);
 
     if (nombre.trim() === '' || (!pedido.huevos.seleccionado && !pedido.aceite.seleccionado)) {
-      alert(t('formError')); // CORREGIDO
+      alert(t('formError'));
       setIsSubmitting(false);
       return;
     }
@@ -83,7 +83,7 @@ export default function HomePage() {
 
     } catch (error) {
       console.error("Error al añadir el pedido: ", error);
-      alert(t('submitError')); // CORREGIDO
+      alert(t('submitError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -111,14 +111,16 @@ export default function HomePage() {
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">{t('yourNameLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📦</span>
-              <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('yourNamePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required />
+              {/* AÑADIMOS TRANSICIÓN AL CAMPO DE TEXTO */}
+              <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('yourNamePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors" required />
             </div>
           </div>
           <div>
             <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">{t('yourPhoneLabel')}</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">📞</span>
-              <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" />
+              {/* AÑADIMOS TRANSICIÓN AL CAMPO DE TEXTO */}
+              <input type="tel" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder={t('yourPhonePlaceholder')} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 transition-colors" />
             </div>
           </div>
           
@@ -137,7 +139,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          {/* AÑADIMOS CLASES DE TRANSICIÓN PARA EL FADE-IN */}
+          <div className="space-y-4 transition-opacity duration-500">
             {pedido.huevos.seleccionado && (
               <div className="bg-orange-50 p-3 rounded-md">
                 <label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label>
@@ -155,8 +158,9 @@ export default function HomePage() {
             )}
           </div>
           
+          {/* AÑADIMOS CLASES DE TRANSICIÓN PARA EL FADE-IN */}
           {totalPedido > 0 && (
-            <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2">
+            <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500">
               <h3 className="font-bold text-lg">{t('orderSummary')}</h3>
               {pedido.huevos.seleccionado && <div className="flex justify-between"><span>{t('eggs')} ({pedido.huevos.cantidad} x {PRECIOS.huevos}€)</span><span>{pedido.huevos.cantidad * PRECIOS.huevos}€</span></div>}
               {pedido.aceite.seleccionado && <div className="flex justify-between"><span>{t('oil')} ({pedido.aceite.cantidad} x {PRECIOS.aceite}€)</span><span>{pedido.aceite.cantidad * PRECIOS.aceite}€</span></div>}

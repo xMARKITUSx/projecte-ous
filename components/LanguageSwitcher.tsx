@@ -13,7 +13,8 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={toggleLanguage}
-      className="mt-4 flex items-center gap-2 rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300"
+      // AÑADIMOS LAS CLASES DE TRANSICIÓN Y EFECTO ACTIVO
+      className="mt-4 flex items-center gap-2 rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 active:scale-95 transition-transform"
     >
       <span>🌍</span>
       {language === 'es' ? 'Català' : 'Español'}
