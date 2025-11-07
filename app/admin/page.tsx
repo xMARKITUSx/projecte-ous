@@ -174,25 +174,25 @@ function AdminPageContent() {
                       </button>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    {pedido.productos.huevos && (
-                      <div className="bg-orange-50 p-2 rounded-md flex justify-between items-center">
-                        <div>
+                  <div className="space-y-2 text-gray-800">
+                    {pedido.productos.huevos && 
+                      <div className="bg-orange-50/70 p-2 rounded-md flex justify-between items-center text-base">
+                        <div className="flex items-center">
                           <span className="text-2xl mr-2">🥚</span>
-                          <span>{pedido.productos.huevos.cantidad} {t('boxUnit')}s <span className="text-gray-600 font-semibold text-sm">({pedido.productos.huevos.unidades} uds)</span></span>
+                          <span className="font-semibold">{pedido.productos.huevos.cantidad} {t('boxUnit')}s ({pedido.productos.huevos.unidades} uds)</span>
                         </div>
-                        <span className="font-bold">{pedido.productos.huevos.precioTotal}€</span>
+                        <span className="font-bold text-lg">{pedido.productos.huevos.precioTotal}€</span>
                       </div>
-                    )}
-                    {pedido.productos.aceite && (
-                      <div className="bg-green-50 p-2 rounded-md flex justify-between items-center">
-                        <div>
+                    }
+                    {pedido.productos.aceite && 
+                      <div className="bg-green-50/70 p-2 rounded-md flex justify-between items-center text-base">
+                        <div className="flex items-center">
                           <span className="text-2xl mr-2">🫒</span>
-                          <span>{pedido.productos.aceite.cantidad} {t('canUnit')}s <span className="text-gray-600 font-semibold text-sm">({pedido.productos.aceite.litros} L)</span></span>
+                          <span className="font-semibold">{pedido.productos.aceite.cantidad} {t('canUnit')}s ({pedido.productos.aceite.litros} L)</span>
                         </div>
-                        <span className="font-bold">{pedido.productos.aceite.precioTotal}€</span>
+                        <span className="font-bold text-lg">{pedido.productos.aceite.precioTotal}€</span>
                       </div>
-                    )}
+                    }
                   </div>
                   <div className="bg-green-600 text-white font-bold text-lg p-2 mt-2 rounded-md text-right">{t('totalToPay')}: {pedido.total}€</div>
                 </div>
@@ -201,8 +201,28 @@ function AdminPageContent() {
           )}
         </div>
       </main>
-      <Modal isOpen={showDeleteAllModal} onClose={() => setShowDeleteAllModal(false)}><div className="space-y-4"><span className="text-5xl">⚠️</span><h2 className="text-2xl font-bold text-gray-900">¿Estás seguro?</h2><p className="text-gray-600">Esta acción eliminará permanentemente <strong>TODOS</strong> los pedidos.</p><div className="flex justify-center space-x-4 pt-4"><button onClick={handleDeleteAllPedidos} className="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600">Sí, borrar todos</button><button onClick={() => setShowDeleteAllModal(false)} className="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button></div></div></Modal>
-      <Modal isOpen={!!pedidoParaEliminar} onClose={() => setPedidoParaEliminar(null)}><div className="space-y-4"><span className="text-5xl">🗑️</span><h2 className="text-2xl font-bold text-gray-900">Confirmar Eliminación</h2><p className="text-gray-600">¿Seguro que quieres eliminar el pedido de <strong>{pedidoParaEliminar?.cliente}</strong>?<br />Esta acción no se puede deshacer.</p><div className="flex justify-center space-x-4 pt-4"><button onClick={handleConfirmDelete} className="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600">Sí, eliminar</button><button onClick={() => setPedidoParaEliminar(null)} className="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button></div></div></Modal>
+      <Modal isOpen={showDeleteAllModal} onClose={() => setShowDeleteAllModal(false)}>
+        <div className="space-y-4">
+          <span className="text-5xl">⚠️</span>
+          <h2 className="text-2xl font-bold text-gray-900">¿Estás seguro?</h2>
+          <p className="text-gray-600">Esta acción eliminará permanentemente <strong>TODOS</strong> los pedidos.</p>
+          <div className="flex justify-center space-x-4 pt-4">
+            <button onClick={handleDeleteAllPedidos} className="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600">Sí, borrar todos</button>
+            <button onClick={() => setShowDeleteAllModal(false)} className="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
+          </div>
+        </div>
+      </Modal>
+      <Modal isOpen={!!pedidoParaEliminar} onClose={() => setPedidoParaEliminar(null)}>
+        <div className="space-y-4">
+          <span className="text-5xl">🗑️</span>
+          <h2 className="text-2xl font-bold text-gray-900">Confirmar Eliminación</h2>
+          <p className="text-gray-600">¿Seguro que quieres eliminar el pedido de <strong>{pedidoParaEliminar?.cliente}</strong>?<br />Esta acción no se puede deshacer.</p>
+          <div className="flex justify-center space-x-4 pt-4">
+            <button onClick={handleConfirmDelete} className="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600">Sí, eliminar</button>
+            <button onClick={() => setPedidoParaEliminar(null)} className="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
