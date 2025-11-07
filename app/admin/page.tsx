@@ -175,8 +175,24 @@ function AdminPageContent() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    {pedido.productos.huevos && <div className="bg-orange-50 p-2 rounded-md flex justify-between items-center"><div><span className="text-2xl mr-2">🥚</span><span>{pedido.productos.huevos.cantidad} {t('boxUnit')}s ({pedido.productos.huevos.unidades} uds)</span></div><span className="font-bold">{pedido.productos.huevos.precioTotal}€</span></div>}
-                    {pedido.productos.aceite && <div className="bg-green-50 p-2 rounded-md flex justify-between items-center"><div><span className="text-2xl mr-2">🫒</span><span>{pedido.productos.aceite.cantidad} {t('canUnit')}s ({pedido.productos.aceite.litros} L)</span></div><span className="font-bold">{pedido.productos.aceite.precioTotal}€</span></div>}
+                    {pedido.productos.huevos && (
+                      <div className="bg-orange-50 p-2 rounded-md flex justify-between items-center">
+                        <div>
+                          <span className="text-2xl mr-2">🥚</span>
+                          <span>{pedido.productos.huevos.cantidad} {t('boxUnit')}s <span className="text-gray-600 font-semibold text-sm">({pedido.productos.huevos.unidades} uds)</span></span>
+                        </div>
+                        <span className="font-bold">{pedido.productos.huevos.precioTotal}€</span>
+                      </div>
+                    )}
+                    {pedido.productos.aceite && (
+                      <div className="bg-green-50 p-2 rounded-md flex justify-between items-center">
+                        <div>
+                          <span className="text-2xl mr-2">🫒</span>
+                          <span>{pedido.productos.aceite.cantidad} {t('canUnit')}s <span className="text-gray-600 font-semibold text-sm">({pedido.productos.aceite.litros} L)</span></span>
+                        </div>
+                        <span className="font-bold">{pedido.productos.aceite.precioTotal}€</span>
+                      </div>
+                    )}
                   </div>
                   <div className="bg-green-600 text-white font-bold text-lg p-2 mt-2 rounded-md text-right">{t('totalToPay')}: {pedido.total}€</div>
                 </div>
