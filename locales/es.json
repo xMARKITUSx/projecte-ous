@@ -41,5 +41,6 @@
   "pendingOilCans": "Garrafas Aceite Pend.",
   "recentOrders": "Pedidos Recientes",
   "formError": "Por favor, completa tu nombre y selecciona al menos un producto.",
-  "submitError": "Hubo un error al enviar tu pedido. Por favor, inténtalo de nuevo."
+  "submitError": "Hubo un error al enviar tu pedido. Por favor, inténtalo de nuevo.",
+  "pendingOrders": "Pedidos Pendientes"
 }
