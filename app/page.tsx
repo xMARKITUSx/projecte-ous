@@ -92,13 +92,11 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4">
       
+      {/* CORRECCIÓN: Banner de confirmación flotante y centrado */}
       {submissionSuccess && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-          <div className="bg-green-500 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center gap-4 text-center animate-fade-in-down w-full max-w-xs">
-            <span className="text-5xl">✓</span>
-            <h2 className="text-2xl font-bold">{t('orderSentSuccess')}</h2>
-            <p className="text-sm">Te contactaremos pronto.</p>
-          </div>
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-md p-4 bg-green-500 text-white text-center font-bold text-lg flex items-center justify-center space-x-2 rounded-lg shadow-lg z-50 animate-fade-in-down">
+          <span>{t('orderSentSuccess')}</span>
+          <span>✓</span>
         </div>
       )}
 
@@ -132,14 +130,12 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-4">
             <div onClick={() => handleSelectProducto('huevos')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.huevos.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
               <span className="text-4xl md:text-5xl">🥚</span>
-              {/* CORRECCIÓN: Texto más oscuro y grueso */}
               <p className="font-bold text-gray-800">{t('eggs')}</p>
               <p className="text-sm text-gray-600">{t('boxPrice')}</p>
               {pedido.huevos.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
             </div>
             <div onClick={() => handleSelectProducto('aceite')} className={`cursor-pointer border-2 rounded-lg p-4 text-center space-y-2 transition-all duration-200 ${pedido.aceite.seleccionado ? 'border-orange-500 bg-orange-50 shadow-lg scale-105' : 'border-gray-200 hover:border-orange-400'}`}>
               <span className="text-4xl md:text-5xl">🫒</span>
-              {/* CORRECCIÓN: Texto más oscuro y grueso */}
               <p className="font-bold text-gray-800">{t('oil')}</p>
               <p className="text-sm text-gray-600">{t('canPrice')}</p>
               {pedido.aceite.seleccionado && <p className="text-green-600 font-bold">{t('selected')}</p>}
