@@ -92,11 +92,13 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4">
       
-      {/* CORRECCIÓN: Banner de confirmación flotante y centrado */}
+      {/* CORRECCIÓN 1: Banner de confirmación centrado (versión robusta) */}
       {submissionSuccess && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-md p-4 bg-green-500 text-white text-center font-bold text-lg flex items-center justify-center space-x-2 rounded-lg shadow-lg z-50 animate-fade-in-down">
-          <span>{t('orderSentSuccess')}</span>
-          <span>✓</span>
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-md p-4 bg-green-500 text-white text-center font-bold text-lg flex items-center justify-center space-x-2 rounded-lg shadow-lg animate-fade-in-down">
+            <span>{t('orderSentSuccess')}</span>
+            <span>✓</span>
+          </div>
         </div>
       )}
 
@@ -143,28 +145,14 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-4 transition-opacity duration-500">
-            {pedido.huevos.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label><input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p></div>)}
-            {pedido.aceite.seleccionado && (<div className="bg-orange-50 p-3 rounded-md"><label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label><input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md" /><p className="text-xs text-gray-500 mt-1">{pedido.aceite.cantidad} {t('canUnit')}s = {pedido.aceite.cantidad * 3} {t('litersUnit')}</p></div>)}
-          </div>
-          
-          {totalPedido > 0 && (<div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md space-y-2 transition-opacity duration-500"><h3 className="font-bold text-lg">{t('orderSummary')}</h3>{pedido.huevos.seleccionado && <div className="flex justify-between"><span>{t('eggs')} ({pedido.huevos.cantidad} x {PRECIOS.huevos}€)</span><span>{pedido.huevos.cantidad * PRECIOS.huevos}€</span></div>}{pedido.aceite.seleccionado && <div className="flex justify-between"><span>{t('oil')} ({pedido.aceite.cantidad} x {PRECIOS.aceite}€)</span><span>{pedido.aceite.cantidad * PRECIOS.aceite}€</span></div>}<hr className="border-green-300" /><div className="flex justify-between font-extrabold text-xl"><span>{t('total')}</span><span>{totalPedido}€</span></div></div>)}
-          
-          <div>
-            <button type="submit" disabled={isSubmitting} className={`w-full text-white font-bold text-lg py-3 px-6 rounded-lg shadow-md transition-transform ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 active:scale-95'}`}>
-              {isSubmitting ? t('sending') : t('sendOrder')}
-            </button>
-          </div>
-        </form>
-
-        <div className="text-center text-sm text-gray-500 flex flex-col items-center gap-2 pt-4">
-          <Link href="/login" className="hover:underline">
-            {t('adminPanel')}
-          </Link>
-          <Link href="/monitor" className="hover:underline">
-            {t('realtimeMonitor')}
-          </Link>
-        </div>
-      </div>
-    </main>
-  );
-}
+            {pedido.huevos.seleccionado && (<div className="bg-orange-50 p-3 rounded-md">
+                <label htmlFor="cantidad-huevos" className="block text-sm font-medium text-gray-700">{t('quantityBoxes')}</label>
+                {/* CORRECCIÓN 2: Texto del input numérico más visible */}
+                <input type="number" id="cantidad-huevos" value={pedido.huevos.cantidad} onChange={(e) => handleCantidadChange('huevos', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md text-gray-800 font-semibold text-lg" />
+                <p className="text-xs text-gray-500 mt-1">{pedido.huevos.cantidad} {t('boxUnit')}s = {pedido.huevos.cantidad * 20} {t('eggsUnit')}</p>
+              </div>)}
+            {pedido.aceite.seleccionado && (<div className="bg-orange-50 p-3 rounded-md">
+                <label htmlFor="cantidad-aceite" className="block text-sm font-medium text-gray-700">{t('quantityCans')}</label>
+                {/* CORRECCIÓN 2: Texto del input numérico más visible */}
+                <input type="number" id="cantidad-aceite" value={pedido.aceite.cantidad} onChange={(e) => handleCantidadChange('aceite', parseInt(e.target.value))} min="1" className="mt-1 w-full p-2 border border-orange-200 rounded-md text-gray-800 font-semibold text-lg" />
+                <p cla
